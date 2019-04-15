@@ -56,7 +56,7 @@ module.exports = {
                 message.channel.send(`Es tu turno ${turnOrder[0]}, tienes 30 segundos, usa ${prefix}k para atacar.`)
                 await message.channel.awaitMessages(msg => (msg.author == turnOrder[0] && msg.content == `${prefix}k`), {
                     max: 1,
-                    time: 15000,
+                    time: 30000,
                     errors: ['time'],
                   })
                   .then(() => {
@@ -76,7 +76,7 @@ module.exports = {
                 message.channel.send(`Es tu turno ${turnOrder[1]}, tienes 30 segundos, usa ${prefix}k para atacar.`)
                 await message.channel.awaitMessages(msg => (msg.author == turnOrder[1] && msg.content == `${prefix}k`), {
                     max: 1,
-                    time: 15000,
+                    time: 30000,
                     errors: ['time'],
                   })
                   .then(() => {
@@ -143,55 +143,5 @@ module.exports = {
           message.channel.send(`Al parecer ${message.mentions.users.first()} no esta ahi.`);
         });
     });
-
-    /*message.channel.send('This will await will be cancelled in 30 seconds. It will finish when you provide a message that goes through the filter the first time.')
-    .then(() => {
-      message.channel.awaitMessages(msg => msg.author == message.mentions.users.first(), {
-        max: 1,
-        time: 30000,
-        errors: ['time'],
-      })
-      .then((collected) => {
-          console.log(collected);
-          message.channel.send(`The collected message was: ${collected.first().content}`);
-        })
-        .catch(() => {
-          message.channel.send('There was no collected message that passed the filter within the time limit!');
-        });
-    });*/
-    
-    /*const msgs = await message.channel.awaitMessages (msg => 
-        {
-            console.log(msg.content);
-            if (msg.content.includes("2")) {
-                return false
-            }
-
-            return msg.content.includes("1");
-        }, {time: 5000});*/
-
-    //message.channel.send(`Espera completada! ${msgs.map(msg => msg.author)}, ${message.author}`);
-
-    //console.log(msgs.map(msg => msg.author.id).toString(), message.mentions.users.first().id);
-    //message.channel.send(`${msgs.some(msg => msg.author.id == `${message.author.id}`)}`);
-    
-    /*let wiener = msgs.some(msg => msg.author.id == "237941845022343168");
-    console.log (wiener);
-
-    console.log(msgs.find(msg => msg.author.id == 
-    console.log(msgs.find(msg => msg.author.id) == `${message.author.id}`);
-    
-    console.log(msgs.map(msg => msg.author.id).toString(), message.author.id);
-
-    const userList = [message.mentions.users.first(), message.author];
-
-    var turnOrder = userList.slice (Math.random() * userList.length);
-
-    if (turnOrder[0] == userList[1]) {
-        turnOrder.push (userList[0]);
-    }
-
-    console.log(`The turn order is ${turnOrder[0].tag}, ${turnOrder[1].tag}.`);*/
-
     },
 }
