@@ -1,0 +1,15 @@
+{
+  "name": "ponyseum",
+  "version": "0.0.2",
+  "description": "Are you not entertained",
+  "main": "app.js",
+  "author": "Illusion",
+  "dependencies": {
+    "discord.js": "^11.4.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "license": "ISC"
+}
