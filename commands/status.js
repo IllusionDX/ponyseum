@@ -16,9 +16,11 @@ module.exports = {
             },
             fields: [
                 {
-                    name: "Información",
+                    name: "Información general",
                     value: `Servidor actual: ${message.guild.name}
-                    Miembros en total: ${message.guild.memberCount}\n`
+                    Miembros en total: ${message.guild.memberCount}\n`,
+                    name: "Estado del bot",
+                    value: `Tiempo de actividad: ${client.uptime}`
                 }
             ]      
           }});

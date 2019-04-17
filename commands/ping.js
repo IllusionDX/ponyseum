@@ -11,6 +11,6 @@ module.exports = {
           return response[Math.floor(Math.random() * response.length)];
           }
           
-        message.channel.send(randomResponse());
+        message.channel.send(randomResponse() + `\nPing: ${client.ping}`);
     },
 }
