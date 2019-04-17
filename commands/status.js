@@ -2,7 +2,7 @@ module.exports = {
     
     name: 'status',
     description: 'Estado del bot.',
-    execute(client, message, args) {
+    execute(message, args) {
         message.channel.send({embed: {
             color: 3447003,
             author: {
@@ -20,7 +20,7 @@ module.exports = {
                     value: `Servidor actual: ${message.guild.name}
                     Miembros en total: ${message.guild.memberCount}\n`,
                     name: "Estado del bot",
-                    value: `Tiempo de actividad: ${client.uptime}`
+                    value: `Tiempo de actividad: ${message.client.uptime}`
                 }
             ]      
           }});
