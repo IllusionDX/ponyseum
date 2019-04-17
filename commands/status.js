@@ -12,7 +12,7 @@ module.exports = {
             description: 
             `Actualmente presente en ${message.client.guilds.size} servidores.`,
             thumbnail: {
-                url: `${message.guild.icon_url}`,
+                url: message.guild.icon_url,
             },
             fields: [
                 {
