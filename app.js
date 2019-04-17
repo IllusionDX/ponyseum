@@ -18,7 +18,7 @@ client.once('ready', () => {
   client.user.setActivity("with your feelings", {type: "PLAYING"})
 });
 
-client.on('message', message => {
+client.on('message', message => client => {
   if (!message.content.startsWith(prefix) || message.author.bot) return
 
   const args = message.content.slice(prefix.length).split(/ +/);

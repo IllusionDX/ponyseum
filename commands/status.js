@@ -2,7 +2,7 @@ module.exports = {
     
     name: 'status',
     description: 'Estado del bot.',
-    execute(message, args) {
+    execute(client, message, args) {
         message.channel.send({embed: {
             color: 3447003,
             author: {
