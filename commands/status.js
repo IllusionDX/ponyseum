@@ -36,7 +36,7 @@ module.exports = {
                 },
                 {
                     name: "Estado del bot",
-                    value: `Tiempo de actividad:`+ mstoHMS(message.client.uptime)
+                    value: `Tiempo de actividad:`+ msToHMS(message.client.uptime)
                 }
             ]      
           }});
