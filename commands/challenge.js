@@ -3,6 +3,7 @@ module.exports = {
 
     name: 'challenge',
     description: 'Sera un duelo a muerte con cuchillos.',
+    usage: `<rival>`,
     async execute(message, args) {
 
     function Player (name, id, health, currentTurn, afk) {
