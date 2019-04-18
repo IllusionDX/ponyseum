@@ -3,7 +3,6 @@ module.exports = {
 	name: 'help',
 	description: 'Genera una lista de comandos disponibles y provee ayuda para usar comandos en especifico.',
 	execute(message, args) {
-		const data = [];
         const {commands} = message.client;
 
         if (!args.length) {
@@ -11,6 +10,7 @@ module.exports = {
             message.channel.send(("```css\n")+`${commands.map(command => command.name).join(', ')}`+("```"));
         }
 
+        else {
         const name = args[0].toLowerCase();
         const command = commands.get(name);
 
@@ -20,6 +20,6 @@ module.exports = {
 
         if (command.description) message.channel.send(`**Descripcion:** ${command.description}`);
         if (command.usage) message.channel.send(`**Uso:** ${prefix}${command.name} ${command.usage}`);
-
+        }
 	},
 };
