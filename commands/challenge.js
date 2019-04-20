@@ -2,41 +2,53 @@ const {prefix} = require('../config.json');
 module.exports = {
 
     name: 'challenge',
-    description: 'Sera un duelo a muerte con cuchillos.',
+    description: 'Desafia a tu oponente a un duelo a muerte.',
     usage: `<rival>`,
     async execute(message, args) {
 
-    function Player (name, id, health, currentTurn, afk) {
-        this.name = name;
-        this.id = id;
+    function Player (player, health, currentTurn, afk) {
+        this.player = player;
         this.health = health;
         this.currentTurn = currentTurn;
         this.afk = afk;
     }
 
-    function Weapon (damage, chance) {
-        this.damage = damage;
-        this.chance = chance;
+    let Weapon = {
+        List : [
+            {
+                name: "Daga",
+                command: `${prefix}k`,
+                damage: "20",
+                chance: "80"
+            },
+            {
+                name: "Ballesta",
+                command: `${prefix}b`,
+                damage: "60",
+                chance: "40"
+            },
+            {
+                name: "Red",
+                command: `${prefix}r`,
+                damage: "80",
+                chance: "20"
+            }
+        ]
     };
 
-    let Dagger = new Weapon(25, 80)
-
     async function Attack (Player, Weapon) {
+        console.log('Attack function called');
         let roll = Math.floor((Math.random() * 100) + 1);
-            console.log(`Rolled ${roll}`);
-            if (roll < Weapon.chance) {
-                message.channel.send(`Golpe asestado!`);
+            if (roll <= Weapon.chance) {
+                message.channel.send(`Golpe asestado!. Lanzaste ${roll}. Probabilidad ${Weapon.chance}`);
                 Player.health -= Weapon.damage;
             }
             else {
-                message.channel.send(`Ataque fallido.`);
+                message.channel.send(`Has fallado el ataque. Lanzaste ${roll}. Probabilidad ${Weapon.chance}`);
             }
         return
     }    
-    
-    console.log (Dagger.damage);
-    console.log (Dagger.chance);
-   
+       
     let gameloop = async function() {
 
         console.log(`Se iniciado una partida del Coliseo.`)
@@ -47,22 +59,29 @@ module.exports = {
         turnOrder.push (userList[0]);
         }
 
-        one = new Player (turnOrder[0].username, turnOrder[0].id, 100, true, false);
-        two = new Player (turnOrder[1].username, turnOrder[1].id, 100, false, false);
+        one = new Player (turnOrder[0], 100, true, false);
+        two = new Player (turnOrder[1], 100, false, false);
 
-        console.log(`El orden de turnos es ${turnOrder[0].tag}, ${turnOrder[1].tag}.`);     
+        console.log(`El orden de turnos es ${turnOrder[0].tag}, ${turnOrder[1].tag}.`);
+        const WeaponRegex = new RegExp(`^(${prefix}k|${prefix}b|${prefix}r)$`);
 
         while (!(one.health <= 0 || two.health <= 0) && !(one.afk || two.afk)) {
             if (one.currentTurn && !(one.afk || two.afk)) {
-                message.channel.send(`Es tu turno ${turnOrder[0]}, tienes 30 segundos, usa ${prefix}k para atacar.`)
-                await message.channel.awaitMessages(msg => (msg.author == turnOrder[0] && msg.content == `${prefix}k`), {
+                message.channel.send(`Es tu turno ${turnOrder[0]}, tienes 30 segundos, usa ${prefix}k, ${prefix}b o ${prefix}r para atacar.`)
+                await message.channel.awaitMessages(msg => (msg.author == turnOrder[0] && msg.content.match(WeaponRegex)), {
                     max: 1,
                     time: 30000,
                     errors: ['time'],
                   })
-                  .then(() => {
-                    Attack(two, Dagger);
-                    message.channel.send(`Salud de los contrincantes, ${turnOrder[0]}: ${one.health}. ${turnOrder[1]}: ${two.health}`);
+                  .then((collected) => {
+                    for (let i = 0; i < Weapon.List.length; i++) {
+                        if (Weapon.List[i].command == collected.first().content) {
+                            console.log(`Arma detectada`);
+                            console.log(Weapon.List[i].name);
+                            Attack(two, Weapon.List[i]);
+                        }
+                    }
+                    message.channel.send(`Salud de los contrincantes, ${one.player}: ${one.health}. ${two.player}: ${two.health}`);
                     one.currentTurn = false; two.currentTurn = true;
                     return
                     })
@@ -74,16 +93,22 @@ module.exports = {
                
             }
             else if (two.currentTurn && !(one.afk || two.afk)) {
-                message.channel.send(`Es tu turno ${turnOrder[1]}, tienes 30 segundos, usa ${prefix}k para atacar.`)
-                await message.channel.awaitMessages(msg => (msg.author == turnOrder[1] && msg.content == `${prefix}k`), {
+                message.channel.send(`Es tu turno ${turnOrder[1]}, tienes 30 segundos, usa ${prefix}k, ${prefix}b o ${prefix}r para atacar.`)
+                await message.channel.awaitMessages(msg => (msg.author == turnOrder[1] && msg.content.match(WeaponRegex)), {
                     max: 1,
                     time: 30000,
                     errors: ['time'],
                   })
-                  .then(() => {
-                    Attack(one, Dagger);
-                    message.channel.send(`Salud de los contrincantes, ${turnOrder[0]}: ${one.health}. ${turnOrder[1]}: ${two.health}`);
-                    one.currentTurn = true; two.currentTurn = false;
+                  .then((collected) => {
+                    for (let i = 0; i < Weapon.List.length; i++) {
+                        if (Weapon.List[i].command == collected.first().content) {
+                            console.log(`Arma detectada`);
+                            console.log(Weapon.List[i].command);
+                            Attack(one, Weapon.List[i]);
+                        }
+                    }
+                    message.channel.send(`Salud de los contrincantes, ${one.player}: ${one.health}. ${two.player}: ${two.health}`);
+                    two.currentTurn = false; one.currentTurn = true;
                     return
                     })
                     .catch(() => {
@@ -96,10 +121,10 @@ module.exports = {
         }
 
         if ((one.health > two.health) && !(one.afk || two.afk)) {
-            message.channel.send(`<@${one.id}> es el vencedor!`)
+            message.channel.send(`${one.player} es el vencedor!`)
         }
         else if ((one.health < two.health) && !(one.afk || two.afk)) {
-            message.channel.send(`<@${two.id}> es el vencedor!`)
+            message.channel.send(`${two.player} es el vencedor!`)
         }
         else {
             message.channel.send("Partida cancelada.")
