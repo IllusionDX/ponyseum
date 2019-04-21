@@ -24,8 +24,8 @@ module.exports = {
             {
                 name: "Ballesta",
                 command: `${prefix}b`,
-                damage: "60",
-                chance: "40"
+                damage: "40",
+                chance: "60"
             },
             {
                 name: "Red",
