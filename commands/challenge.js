@@ -28,21 +28,23 @@ module.exports = {
         ]
     };
 
+    let data = [];
+
     async function Attack (Player, Weapon) {
         let roll = Math.floor((Math.random() * 100) + 1);
             if (roll <= Weapon.chance) {
-                message.channel.send(`Golpe asestado!. Lanzaste ${roll}. Probabilidad ${Weapon.chance}`);
+                data.push(`Golpe asestado!. Lanzaste ${roll}. Probabilidad ${Weapon.chance}`);
                 Player.hp -= Weapon.damage;
             }
             else {
-                message.channel.send(`Has fallado el ataque. Lanzaste ${roll}. Probabilidad ${Weapon.chance}`);
+                data.push(`Has fallado el ataque. Lanzaste ${roll}. Probabilidad ${Weapon.chance}`);
             }
         return
     }    
        
     let gameloop = async function() {
 
-        console.log(`Se iniciado una partida del Coliseo.`)
+        console.log(`Se iniciado una partida del Coliseo en ${message.guild.name}.`)
         //Escoge un usuario al azar para empezar el turno.
         const userList = [message.mentions.users.first(), message.author];
         let Player = userList.slice (Math.random() * userList.length);
@@ -70,17 +72,17 @@ module.exports = {
                             Attack(Player[1], Weapon.List[i]);
                         }
                     }
-                    message.channel.send(`Salud de los contrincantes, ${Player[0]}: ${Player[0].hp}. ${Player[1]}: ${Player[1].hp}`);
+                    data.push(`Salud de los contrincantes, ${Player[0]}: ${Player[0].hp}. ${Player[1]}: ${Player[1].hp}`);
                     Player.reverse();
-                    return
+                    return message.channel.send(data, {split: true});
                     })
                     .catch(() => {
                       message.channel.send(`Parece que ${Player[0]} no esta ahi.`);
                       Player[0].afk = true;
                       return
                     });
+                data = [];
             }
-         
 
         if ((Player[0].hp > Player[1].hp) && !(Player[0].afk)) {
             message.channel.send(`${Player[0]} es el vencedor!`)
@@ -108,11 +110,11 @@ module.exports = {
     }
 
     message.channel.send(`${message.mentions.users.first()}, ${message.author} desea desafiarte a un duelo a muerte con cuchillos, aceptas el reto?` +
-    `\nResponde con 1, o 2 si quieres rechazar el duelo. Esta invitacion expirara automaticamente en 15 segundos.`)
+    `\nResponde con 1, o 2 si quieres rechazar el duelo. Esta invitacion expirara automaticamente en 30 segundos.`)
     .then(() => {
       message.channel.awaitMessages(msg => (msg.author == message.mentions.users.first()) && (msg.content == ("1") || msg.content == ("2")), {
         max: 1,
-        time: 15000,
+        time: 30000,
         errors: ['time'],
       })
       .then((collected) => {
