@@ -1,5 +1,7 @@
 const {prefix} = require('../config.json');
+
 module.exports = {
+    
 	name: 'help',
 	description: 'Genera una lista de comandos disponibles y provee ayuda para usar comandos en especifico.',
 	execute(message, args) {

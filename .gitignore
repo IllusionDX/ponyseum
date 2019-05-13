@@ -4,3 +4,4 @@
 .vscode/ipch/f275339cbf8f5544/mmap_address.bin
 commands/embed.js
 node_modules
+.vscode
