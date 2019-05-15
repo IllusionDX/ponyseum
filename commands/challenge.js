@@ -1,4 +1,5 @@
-const {prefix} = require('../config.json');
+const {prefix} = require("../config.json");
+const Weapon = require("../weapons.json");
 
 module.exports = {
 
@@ -6,28 +7,6 @@ module.exports = {
     description: 'Desafia a tu oponente a un duelo a muerte.',
     usage: `<rival>`,
     async execute(message, args) {
-    let Weapon = {
-        List : [
-            {
-                name: "Daga",
-                command: `${prefix}k`,
-                damage: "20",
-                chance: "80"
-            },
-            {
-                name: "Ballesta",
-                command: `${prefix}b`,
-                damage: "40",
-                chance: "60"
-            },
-            {
-                name: "Red",
-                command: `${prefix}r`,
-                damage: "80",
-                chance: "20"
-            }
-        ]
-    };
 
     let data = [];
 
@@ -41,8 +20,8 @@ module.exports = {
                 data.push(`Has fallado el ataque. Lanzaste ${roll}. Probabilidad ${Weapon.chance}`);
             }
         return
-    }    
-       
+    }
+
     let gameloop = async function() {
 
         console.log(`Se iniciado una partida del Coliseo en ${message.guild.name}.`)
@@ -68,7 +47,7 @@ module.exports = {
                   })
                   .then((collected) => {
                     for (let i = 0; i < Weapon.List.length; i++) {
-                        if (Weapon.List[i].command == collected.first().content) {
+                        if (collected.first().content.includes(Weapon.List[i].command)) {
                             console.log(`Arma detectada: `+`${Weapon.List[i].name}`);
                             Attack(Player[1], Weapon.List[i]);
                         }
