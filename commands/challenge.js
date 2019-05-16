@@ -4,7 +4,7 @@ const Weapon = require("../weapons.json");
 module.exports = {
 
     name: 'challenge',
-    description: 'Desafia a tu oponente a un duelo a muerte.',
+    description: 'Desafiá a tu oponente a un duelo a muerte.',
     usage: `<rival>`,
     async execute(message, args) {
 
@@ -13,13 +13,12 @@ module.exports = {
     async function Attack (Player, Weapon) {
         let roll = Math.floor((Math.random() * 100) + 1);
             if (roll <= Weapon.chance) {
-                data.push(`Golpe asestado!. Lanzaste ${roll}. Probabilidad ${Weapon.chance}`);
+                return (`Has acertado!. Lanzaste ${roll}. Probabilidad ${Weapon.chance}`);
                 Player.hp -= Weapon.damage;
             }
             else {
-                data.push(`Has fallado el ataque. Lanzaste ${roll}. Probabilidad ${Weapon.chance}`);
+                return (`Has fallado!. Lanzaste ${roll}. Probabilidad ${Weapon.chance}`);
             }
-        return
     }
 
     let gameloop = async function() {
@@ -39,17 +38,16 @@ module.exports = {
         const WeaponRegex = new RegExp(`^(${prefix}k|${prefix}b|${prefix}r)$`);
 
         while (!(Player[0].hp <= 0 || Player[1].hp <= 0) && !(Player[0].afk)) {
-                message.channel.send(`Es tu turno ${Player[0]}, tienes 30 segundos, usa ${prefix}k, ${prefix}b o ${prefix}r para atacar.`)
+                await message.channel.send(`Es tu turno ${Player[0]}, tienes 30 segundos, usa ${prefix}k, ${prefix}b o ${prefix}r para atacar.`)
                 await message.channel.awaitMessages(msg => (msg.author == Player[0] && msg.content.match(WeaponRegex)), {
                     max: 1,
                     time: 30000,
                     errors: ['time'],
                   })
                   .then((collected) => {
-                    for (let i = 0; i < Weapon.List.length; i++) {
-                        if (collected.first().content.includes(Weapon.List[i].command)) {
-                            console.log(`Arma detectada: `+`${Weapon.List[i].name}`);
-                            Attack(Player[1], Weapon.List[i]);
+                    for (let i = 0; i < Weapon.length; i++) {
+                        if (collected.first().content.includes(Weapon[i].command)) {
+                            data.push(`¡${Player[0]} ha atacado a ${Player[1]} con una ${Weapon[i].name} ${Weapon[i].icon}!`) + Attack(Player[1], Weapon[i]);
                         }
                     }
                     data.push(`Salud de los contrincantes, ${Player[0]}: ${Player[0].hp}. ${Player[1]}: ${Player[1].hp}`);
@@ -90,7 +88,7 @@ module.exports = {
     }
 
     message.channel.send(`${message.mentions.users.first()}, ${message.author} desea desafiarte a un duelo a muerte con cuchillos, aceptas el reto?` +
-    `\nResponde con 1, o 2 si quieres rechazar el duelo. Esta invitacion expirara automaticamente en 30 segundos.`)
+    `\nResponde con 1, o 2 si quieres rechazar el duelo. Esta invitación expirara automáticamente en 30 segundos.`)
     .then(() => {
       message.channel.awaitMessages(msg => (msg.author == message.mentions.users.first()) && (msg.content == ("1") || msg.content == ("2")), {
         max: 1,
@@ -99,13 +97,13 @@ module.exports = {
       })
       .then((collected) => {
           if (collected.first().content == "1"){
-              message.channel.send("Desafio aceptado.").then(() => {
+              message.channel.send("Desafió aceptado.").then(() => {
                         gameloop();
                     }
                   )
           }
           else if (collected.first().content == "2"){
-              message.channel.send("Desafio rechazado.");
+              message.channel.send("Desafió rechazado.");
           }
         })
         .catch(() => {

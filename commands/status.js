@@ -6,12 +6,12 @@ module.exports = {
 
         function msToHMS(ms) {
             // 1- Convert to seconds:
-            var seconds = Math.round(ms / 1000);
+            let seconds = Math.round(ms / 1000);
             // 2- Extract hours:
-            var hours = Math.round(parseInt(seconds / 3600)); // 3,600 seconds in 1 hour
+            let hours = Math.round(parseInt(seconds / 3600)); // 3,600 seconds in 1 hour
             seconds = seconds % 3600; // seconds remaining after extracting hours
             // 3- Extract minutes:
-            var minutes = Math.round(parseInt(seconds / 60)); // 60 seconds in 1 minute
+            let minutes = Math.round(parseInt(seconds / 60)); // 60 seconds in 1 minute
             // 4- Keep only seconds not extracted to minutes:
             seconds = seconds % 60;
             return(hours+"h"+":"+minutes+"m"+":"+seconds+"s");

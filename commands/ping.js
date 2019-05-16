@@ -3,7 +3,7 @@ module.exports = {
     name: 'ping',
     description: 'Comprueba si el bot esta en linea.',
     execute(message, args) {
-        var response = [
+        let response = [
             "Buenos días, comandante...","Frecuencias de comunicación abiertas.","Identifícate.","Transmisión recibida.","Tripulación reportandose.","Escudos activos, armas en linea. . . ."
             ]
           
