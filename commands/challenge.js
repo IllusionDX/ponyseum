@@ -13,8 +13,8 @@ module.exports = {
     async function Attack (Player, Weapon) {
         let roll = Math.floor((Math.random() * 100) + 1);
             if (roll <= Weapon.chance) {
-                return (`Has acertado!. Lanzaste ${roll}. Probabilidad ${Weapon.chance}`);
                 Player.hp -= Weapon.damage;
+                return (`Has acertado!. Lanzaste ${roll}. Probabilidad ${Weapon.chance}`);
             }
             else {
                 return (`Has fallado!. Lanzaste ${roll}. Probabilidad ${Weapon.chance}`);
