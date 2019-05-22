@@ -12,7 +12,7 @@ module.exports = {
 
     let data = [];
 
-    Attack = function (Player, Weapon) 
+    function Attack (Player, Weapon) 
     {
         let roll = Math.floor((Math.random() * 100) + 1);
 
@@ -52,7 +52,6 @@ module.exports = {
                   .then((collected) => {
                     for (let i = 0; i < Weapon.length; i++) {
                         if (collected.first().content.includes(Weapon[i].command)) {
-                            Attack(Player[1], Weapon[i])
                             data.push((`¡${Player[0]} ha atacado a ${Player[1]} con una ${Weapon[i].name} ${Weapon[i].icon}!... y `) + (Attack(Player[1], Weapon[i])));
                         }
                     }
