@@ -2,9 +2,10 @@ module.exports = {
     
     name: 'ping',
     description: 'Comprueba si el bot esta en linea.',
+    
     execute(message, args) {
         let response = [
-            "Buenos días, comandante...","Frecuencias de comunicación abiertas.","Identifícate.","Transmisión recibida.","Tripulación reportandose.","Escudos activos, armas en linea. . . ."
+            "Buenos días, comandante...","Frecuencias de comunicación abiertas.","Identifícate.","Transmisión recibida.","Tripulación reportándose.","Escudos activos, armas en linea. . . ."
             ]
           
           function randomResponse() {

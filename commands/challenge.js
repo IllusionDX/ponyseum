@@ -3,26 +3,26 @@ const Weapon = require("../weapons.json");
 
 module.exports = {
 
-    name: 'challenge',
-    description: 'Desafiá a tu oponente a un duelo a muerte.',
-    usage: `<rival>`,
+    name: "challenge",
+    description: "Desafiá a tu oponente a un duelo a muerte.",
+    usage: "<rival>",
+    alias: ["retar"],
+    
     async execute(message, args) {
 
     let data = [];
 
-    Attack = function (Player, Weapon) {
-
+    Attack = function (Player, Weapon) 
+    {
         let roll = Math.floor((Math.random() * 100) + 1);
-        let response;
 
             if (roll <= Weapon.chance) {
                 Player.hp -= Weapon.damage;
-                response = ` ¡Ha acertado! (${roll} < ${Weapon.chance})`;
-                return response;
+                return `¡Ha acertado! (${roll} < ${Weapon.chance})`;
             }
-            else {
-                response = ` ¡Ha fallado! (${roll} > ${Weapon.chance})`;
-                return response;
+
+            else {   
+                return `¡Ha fallado! (${roll} > ${Weapon.chance})`; 
             }
     }
 
@@ -53,7 +53,7 @@ module.exports = {
                     for (let i = 0; i < Weapon.length; i++) {
                         if (collected.first().content.includes(Weapon[i].command)) {
                             Attack(Player[1], Weapon[i])
-                            data.push((`¡${Player[0]} ha atacado a ${Player[1]} con una ${Weapon[i].name} ${Weapon[i].icon}!... y`) + (Attack(Player[1], Weapon[i])));
+                            data.push((`¡${Player[0]} ha atacado a ${Player[1]} con una ${Weapon[i].name} ${Weapon[i].icon}!... y `) + (Attack(Player[1], Weapon[i])));
                         }
                     }
                     data.push(`Salud de los contrincantes, ${Player[0]}: ${Player[0].hp}. ${Player[1]}: ${Player[1].hp}`);

@@ -2,6 +2,7 @@ module.exports = {
     
     name: 'status',
     description: 'Estado del bot.',
+    
     execute(message, args) {
 
         function msToHMS(ms) {

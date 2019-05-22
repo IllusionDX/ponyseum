@@ -22,16 +22,16 @@ client.on('message', async message => {
   if (!message.content.startsWith(prefix) || message.author.bot) return
 
   const args = message.content.slice(prefix.length).split(/ +/);
-  const command = args.shift().toLowerCase();
+  const commandName = args.shift().toLowerCase();
 
-  if (!client.commands.get(command)) {
-    return
-  }
-    
+  const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.alias && cmd.alias.includes(commandName));
+
+  if (!command) return
+
   try {
-    client.commands.get(command).execute(message, args);
+    command.execute(message, args, commandName);
   } catch (error) {
-    console.error(error);
+    console.log(error);
     message.reply("Ha ocurrido un error al ejecutar el comando!");
   }
   
