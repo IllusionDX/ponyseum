@@ -10,14 +10,19 @@ module.exports = {
 
     let data = [];
 
-    async function Attack (Player, Weapon) {
+    Attack = function (Player, Weapon) {
+
         let roll = Math.floor((Math.random() * 100) + 1);
+        let response;
+
             if (roll <= Weapon.chance) {
                 Player.hp -= Weapon.damage;
-                return (`Has acertado!. Lanzaste ${roll}. Probabilidad ${Weapon.chance}`);
+                response = ` ¡Ha acertado! (${roll} < ${Weapon.chance})`;
+                return response;
             }
             else {
-                return (`Has fallado!. Lanzaste ${roll}. Probabilidad ${Weapon.chance}`);
+                response = ` ¡Ha fallado! (${roll} > ${Weapon.chance})`;
+                return response;
             }
     }
 
@@ -47,7 +52,8 @@ module.exports = {
                   .then((collected) => {
                     for (let i = 0; i < Weapon.length; i++) {
                         if (collected.first().content.includes(Weapon[i].command)) {
-                            data.push(`¡${Player[0]} ha atacado a ${Player[1]} con una ${Weapon[i].name} ${Weapon[i].icon}!`) + Attack(Player[1], Weapon[i]);
+                            Attack(Player[1], Weapon[i])
+                            data.push((`¡${Player[0]} ha atacado a ${Player[1]} con una ${Weapon[i].name} ${Weapon[i].icon}!... y`) + (Attack(Player[1], Weapon[i])));
                         }
                     }
                     data.push(`Salud de los contrincantes, ${Player[0]}: ${Player[0].hp}. ${Player[1]}: ${Player[1].hp}`);

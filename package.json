@@ -1,11 +1,10 @@
 {
   "name": "ponyseum",
-  "version": "0.0.2c",
-  "description": "Are you not entertained",
+  "version": "0.0.0",
+  "description": "Are you not entertained?",
   "main": "app.js",
   "author": "Illusion",
   "dependencies": {
-    "canvas": "^2.5.0",
     "discord.js": "^11.5.0",
     "node-fetch": "^2.5.0"
   },
@@ -13,5 +12,5 @@
     "node": "12.2.0"
   },
   "keywords": [],
-  "license": "CC0"
+  "license": "CC0-1.0"
 }
