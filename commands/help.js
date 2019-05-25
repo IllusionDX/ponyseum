@@ -6,13 +6,16 @@ module.exports = {
     alias: ["ayuda"],
     description: 'Genera una lista de comandos disponibles y provee ayuda para usar comandos en especifico.',
     
-	execute(message, args, commandName) {
+	execute(message, args, cmdname) {
 
         const {commands} = message.client;
 
         if (!args.length) {
-            message.channel.send('Esta es la lista de mis comandos actuales. '+(`Usa ${prefix}${commandName} <comando> para mas información.`));
-            message.channel.send(("```css\n")+`${commands.map(command => command.name).join(', ')}`+("```"));
+            message.channel.send('Esta es la lista de mis comandos actuales. '+(`Usa ${prefix}${cmdname} <comando> para mas información.`));
+            message.channel.send(
+                ("```css\n") +
+                    `${commands.map(command => command.name).filter(Boolean).join(', ')}`+
+                ("```"));
         }
 
         else {

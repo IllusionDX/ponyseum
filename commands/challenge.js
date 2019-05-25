@@ -3,9 +3,9 @@ const Weapon = require("../weapons.json");
 
 module.exports = {
 
-    name: "challenge",
-    description: "Desafiá a tu oponente a un duelo a muerte.",
-    usage: "<rival>",
+    name: 'challenge',
+    description: 'Desafiá a tu oponente a un duelo a muerte.',
+    usage: '<rival>',
     alias: ["retar"],
     
     async execute(message, args) {
