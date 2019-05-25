@@ -10,6 +10,7 @@ module.exports = {
         const Discord = require('discord.js');
         const path = require('path');
 
+        // Name and text positioning
         let x = 145;
         let y = 215;
 
@@ -17,10 +18,12 @@ module.exports = {
         let tY = 245;
         let tMaxWidth = 150;
 
+        //Storage for mentions
+        let uList = [];
+
         getLines = function (text, ctx, maxWidth) {
 
             this.text = text;
-            text.shift();
 
             let words = text.join(' ');
             let lines = [];
@@ -31,15 +34,29 @@ module.exports = {
                 let width = ctx.measureText(currentLine + "" + word).width;
                 if (width < maxWidth) {
                     currentLine += "" + word;
-                } else {
+                } 
+                else {
                     lines.push(currentLine);
                     currentLine = word;
                 }
             }
             lines.push(currentLine);
             return lines;
-        
         }
+
+        function getUserFromMention(mention) {
+            if (!mention) return;
+        
+            if (mention.startsWith('<@') && mention.endsWith('>')) {
+                mention = mention.slice(2, -1);
+        
+                if (mention.startsWith('!')) {
+                    mention = mention.slice(1);
+                }
+        
+                return message.client.users.get(mention).username;
+            }
+        }        
 
         //Loading the background dice image and resolving the path.
         const bg = await Canvas.loadImage(path.resolve('./assets/rip.png'));
@@ -59,19 +76,37 @@ module.exports = {
             ctx.fillText(`@${message.author.username}`, x, y);
         }
         
-        else if (args[0] = message.mentions.users.first()) {
+        else if (args.length > 0) {
 
             ctx.font = 'bold 18px sans-serif';
             ctx.fillStyle = 'black';
             ctx.textAlign = 'center';
-            ctx.fillText(`@${message.mentions.users.first().username}`, x, y, 145);
+
+            if (message.mentions.users.size) {
+                ctx.fillText(`${getUserFromMention(args[0])}`, x, y, 145);
+            }
+            else {
+                ctx.fillText(`${args[0]}`, x, y, 145);
+            }
             
             if (args[1]) {
 
-                ctx.font = 'bold 16px sans-serif';
+                ctx.font = 'bold 14px sans-serif';
                 ctx.fillStyle = 'black';
                 ctx.textAlign = 'center';
-                
+
+                message.mentions.users.tap(user => uList.push(user));
+
+                args.shift();
+
+                for (let j = 0; j < args.length; j++) {
+                    for (let k = 0; k < uList.length; k++) {
+                        if (args[j] == `<@${uList[k].id}>`) {
+                            args[j] = uList[k].username;
+                        }
+                    }
+                }
+
                 let lines = getLines(args, ctx, tMaxWidth);
 
                 for (let i = 0; i < lines.length; i++) {
