@@ -5,7 +5,7 @@ module.exports = {
 
     name: 'challenge',
     description: 'Desafiá a tu oponente a un duelo a muerte.',
-    usage: '<rival>',
+    usage: '@rival',
     alias: ["retar"],
     
     async execute(message, args) {

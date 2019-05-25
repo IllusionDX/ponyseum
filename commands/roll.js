@@ -6,6 +6,10 @@ module.exports = {
     
     async execute(message, args, commandName) {
 
+        let rotation = 8;
+        let x = 107;
+        let y = 110;
+
         //Required Canvas and path instances.
         const Canvas = require('canvas');
         const Discord = require('discord.js');
@@ -20,7 +24,7 @@ module.exports = {
         }
 
         //Loading the background dice image and resolving the path.
-        const bg = await Canvas.loadImage(path.resolve('./resources/dice.png'));
+        const bg = await Canvas.loadImage(path.resolve('./assets/dice.png'));
 
         //Canvas declaration
         const cdef = Canvas.createCanvas(200, 200);
@@ -35,8 +39,8 @@ module.exports = {
             ctx.font = '58px serif';
             ctx.fillStyle = 'white';
             ctx.textAlign = 'center';
-            ctx.rotate(5 * Math.PI / 180);
-            ctx.fillText(`${r20(20)}`, 105, 115);
+            ctx.rotate(rotation * Math.PI / 180);
+            ctx.fillText(`${r20(20)}`, x, y);
 
         }
 
@@ -50,8 +54,8 @@ module.exports = {
             ctx.font = '58px serif';
             ctx.fillStyle = 'white';
             ctx.textAlign = 'center';
-            ctx.rotate(5 * Math.PI / 180);
-            ctx.fillText(`${r20(args[0].toLowerCase())}`, 105, 115);
+            ctx.rotate(rotation * Math.PI / 180);
+            ctx.fillText(`${r20(args[0].toLowerCase())}`, x, y);
 
         }
 
