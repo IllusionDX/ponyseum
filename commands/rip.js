@@ -70,7 +70,7 @@ module.exports = {
 
         if (!args.length) {
 
-            ctx.font = 'bold 18px sans-serif';
+            ctx.font = 'bold 18px Libre Franklin';
             ctx.fillStyle = 'black';
             ctx.textAlign = 'center';
             ctx.fillText(`@${message.author.username}`, x, y);
@@ -78,7 +78,7 @@ module.exports = {
         
         else if (args.length > 0) {
 
-            ctx.font = 'bold 18px sans-serif';
+            ctx.font = 'bold 18px Libre Franklin';
             ctx.fillStyle = 'black';
             ctx.textAlign = 'center';
 
@@ -91,7 +91,7 @@ module.exports = {
             
             if (args[1]) {
 
-                ctx.font = 'bold 14px Sans';
+                ctx.font = '16px Roboto';
                 ctx.fillStyle = 'black';
                 ctx.textAlign = 'center';
 
