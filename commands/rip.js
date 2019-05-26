@@ -91,7 +91,7 @@ module.exports = {
             
             if (args[1]) {
 
-                ctx.font = '16px Roboto';
+                ctx.font = 'bold 16px Roboto';
                 ctx.fillStyle = 'black';
                 ctx.textAlign = 'center';
 
