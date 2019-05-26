@@ -91,7 +91,7 @@ module.exports = {
             
             if (args[1]) {
 
-                ctx.font = 'bold 14px sans-serif';
+                ctx.font = 'bold 14px Sans';
                 ctx.fillStyle = 'black';
                 ctx.textAlign = 'center';
 
