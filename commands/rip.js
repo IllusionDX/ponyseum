@@ -54,7 +54,7 @@ module.exports = {
                     mention = mention.slice(1);
                 }
         
-                return message.client.users.get(mention).username;
+                return message.client.users.get(mention);
             }
         }        
 
@@ -83,7 +83,7 @@ module.exports = {
             ctx.textAlign = 'center';
 
             if (message.mentions.users.size) {
-                ctx.fillText(`${getUserFromMention(args[0])}`, x, y, 145);
+                ctx.fillText(`${getUserFromMention(args[0]).username}`, x, y, 145);
             }
             else {
                 ctx.fillText(`${args[0]}`, x, y, 145);
@@ -121,7 +121,7 @@ module.exports = {
         }
         
         //Declaring and sending attachment
-        let attachement = new Discord.Attachment(cdef.toBuffer(), 'd20.png');
+        let attachement = new Discord.Attachment(cdef.toBuffer(), 'rip.png');
         message.channel.send(attachement);
     },
 }
