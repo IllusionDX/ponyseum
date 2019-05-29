@@ -1,3 +1,5 @@
+const {repository} = require('../config.json');
+
 module.exports = {
     
     name: 'status',
@@ -5,7 +7,9 @@ module.exports = {
     
     execute(message, args) {
 
-        function msToHMS(ms) {
+        const creationDate = new Date(message.guild.createdTimestamp)
+
+        msToHMS = function (ms) {
             // 1- Convert to seconds:
             let seconds = Math.round(ms / 1000);
             // 2- Extract hours:
@@ -17,6 +21,15 @@ module.exports = {
             seconds = seconds % 60;
             return(hours+"h"+":"+minutes+"m"+":"+seconds+"s");
         }
+
+        guildSize = function (message) {
+            if (message.client.guilds.size > 1) {
+                return `Actualmente presente en ${message.client.guilds.size} servidores.`
+            }
+            else {
+                return `Actualmente presente en ${message.client.guilds.size} servidor.`
+            }
+        }
         
         message.channel.send({embed: {
             color: 3447003,
@@ -24,8 +37,8 @@ module.exports = {
                 name: message.client.user.username,
                 icon_url: message.client.user.avatarURL
             },
-            description: 
-            `Actualmente presente en ${message.client.guilds.size} servidores.`,
+            description:
+            guildSize(message),
             thumbnail: {
                 url: message.guild.iconURL,
             },
@@ -33,13 +46,20 @@ module.exports = {
                 {
                     name: "Información general",
                     value: `Servidor actual: ${message.guild.name}
-                    Miembros en total: ${message.guild.memberCount}\n`
+                    Miembros en total: ${message.guild.memberCount}
+                    Fecha de creación: ${creationDate.toLocaleString('en-GB')}`
                 },
                 {
                     name: "Estado del bot",
-                    value: `Tiempo de actividad: `+ msToHMS(message.client.uptime)
+                    value: `Tiempo de actividad: `+ msToHMS(message.client.uptime) +
+                    `\nLatencia del API: ${Math.round(message.client.ping)}ms`
                 }
-            ]      
+            ],
+            timestamp: Date.now(),
+            footer: {
+                icon_url: message.client.user.avatarURL,
+                text: repository
+            }
           }});
     },
 }

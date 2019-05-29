@@ -1,16 +1,15 @@
+const Canvas = require('canvas');
+const Discord = require('discord.js');
+const path = require('path');
+
 module.exports = {
     
     name: 'rip',
-    description: 'Aquí yacen mis esperanzas y sueños.',
+    description: 'Aquí yacen mis sueños y esperanzas.',
     usage: '@usuario [texto en la lapida]',
     
     async execute(message, args) {
-        
-        const Canvas = require('canvas');
-        const Discord = require('discord.js');
-        const path = require('path');
-
-        // Name and text positioning
+         // Name and text positioning
         let x = 145;
         let y = 215;
 
@@ -44,7 +43,7 @@ module.exports = {
             return lines;
         }
 
-        function getUserFromMention(mention) {
+        getUserFromMention = function (mention) {
             if (!mention) return;
         
             if (mention.startsWith('<@') && mention.endsWith('>')) {
@@ -53,7 +52,7 @@ module.exports = {
                 if (mention.startsWith('!')) {
                     mention = mention.slice(1);
                 }
-        
+
                 return message.client.users.get(mention);
             }
         }        
@@ -95,16 +94,14 @@ module.exports = {
                 ctx.fillStyle = 'black';
                 ctx.textAlign = 'center';
 
-                message.mentions.users.tap(user => uList.push(user));
+                //message.mentions.users.tap(user => uList.push(user));
 
                 args.shift();
 
                 for (let j = 0; j < args.length; j++) {
-                    for (let k = 0; k < uList.length; k++) {
-                        if (args[j] == `<@${uList[k].id}>`) {
-                            args[j] = uList[k].username;
+                    if (args[j].startsWith('<@') && args[j].endsWith('>')) {
+                        args[j] = getUserFromMention(args[j]).username;
                         }
-                    }
                 }
 
                 let lines = getLines(args, ctx, tMaxWidth);
