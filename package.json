@@ -6,13 +6,17 @@
   "author": "Illusion",
   "dependencies": {
     "canvas": "^2.5.0",
-    "dateformat": "^3.0.3",
     "discord.js": "^11.5.0",
+    "i18n": "^0.8.3",
     "node-fetch": "^2.5.0"
   },
   "engines": {
     "node": "12.3.1"
   },
   "keywords": [],
-  "license": "CC0-1.0"
+  "license": "CC0-1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IllusionDX/ponyseum.git"
+  }
 }

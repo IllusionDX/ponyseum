@@ -1,4 +1,5 @@
 const {prefix} = require("../config.json");
+const Attack = require('../attack.json');
 const Weapon = require("../weapons.json");
 
 module.exports = {
@@ -12,7 +13,7 @@ module.exports = {
 
     let data = [];
 
-    function Attack (Player, Weapon) 
+    function Attack (Player, Weapon, Attack) 
     {
         let roll = Math.floor((Math.random() * 100) + 1);
 
@@ -52,7 +53,7 @@ module.exports = {
                   .then((collected) => {
                     for (let i = 0; i < Weapon.length; i++) {
                         if (collected.first().content.includes(Weapon[i].command)) {
-                            data.push((`¡${Player[0]} ha atacado a ${Player[1]} con una ${Weapon[i].name} ${Weapon[i].icon}!... y `) + (Attack(Player[1], Weapon[i])));
+                            data.push((`¡${Player[0]} ha atacado a ${Player[1]} con una ${Weapon[i].name} ${Weapon[i].icon}!... y `) + (Attack(Player[1], Weapon[i], Attack)));
                         }
                     }
                     data.push(`Salud de los contrincantes, ${Player[0]}: ${Player[0].hp}. ${Player[1]}: ${Player[1].hp}`);

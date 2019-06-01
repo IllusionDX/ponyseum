@@ -1,0 +1,8 @@
+{
+    "onHit" : [
+        "P1 se abalanza sobre P2 y logra asestar un golpe firme, eso debe doler."
+    ],
+    "onMiss" : [
+        "P2 es rápido y esquiva con destreza el ataque de P1."
+    ]
+}
