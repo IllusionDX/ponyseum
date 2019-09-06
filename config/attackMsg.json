@@ -1,0 +1,11 @@
+{
+    "onHit" : [
+        "P1 dispara y logra asestar un tiro certero sobre P2, ouch, eso debe doler."
+    ],
+    "onMiss" : [
+        "P2 es rápido y esquiva con destreza el ataque de P1.",
+        "P1 lanza un tiro, rozando a P2 por poco, pero este se percata al ultimo momento y logra esquivar el ataque. "
+    ],
+    "pName" : "P1",
+    "pName2" : "P2"
+}
