@@ -3,11 +3,11 @@ const Discord = require('discord.js');
 const path = require('path');
 
 module.exports = {
-    
+
     name: 'roll',
     alias: ['d20'],
     description: 'Lanza un dado y ve que te sale.',
-    
+
     async execute(message, args, commandName) {
 
         let rotation = 8;
@@ -23,8 +23,7 @@ module.exports = {
             if (!sides) {
                 let roll = Math.floor((Math.random() * limit) + 1);
                 return roll;
-            }
-            else {
+            } else {
                 for (let i = 0; i < sides; i++) {
                     faceResult[i] = Math.floor((Math.random() * limit) + 1);
                 }
@@ -53,27 +52,22 @@ module.exports = {
 
             let attachement = new Discord.Attachment(cdef.toBuffer(), 'd20.png');
             message.channel.send(attachement);
-    
-        }
 
-        else if (commandName == 'roll') {
+        } else if (commandName == 'roll') {
 
             if (!args.length) {
                 return message.reply("debes introducir el numero máximo para lanzar el dado.");
-            }
-            else if (args.length < 2) {
+            } else if (args.length < 2) {
                 if (isNaN(args[0])) {
                     return message.channel.send("Argumentos inválidos");
                 }
                 message.channel.send(`¡Te ha salido **${r20(args[0])}**!`);
-            }
-            else if (args.length > 1 && args.length < 3) {
+            } else if (args.length > 1 && args.length < 3) {
                 if (isNaN(args[0]) || isNaN(args[1])) {
                     return message.channel.send("Argumentos inválidos");
                 }
                 message.channel.send(`Lanzaste ${args[1]} dados de ${args[0]} caras, ¡Te ha salido **${r20(args[0], args[1]).join(', ')}**!`);
-            }
-            else {
+            } else {
                 return message.channel.send("Argumentos inválidos.");
             }
         }
