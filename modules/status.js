@@ -1,13 +1,11 @@
-const {
-    repository
-} = require('../config/vars.json');
+const {repository} = require("../config/vars.json");
 
 module.exports = {
 
-    name: 'status',
-    description: 'Estado del bot.',
+    name: "status",
+    description: "Estado del bot.",
 
-    execute(message, args) {
+    async execute(message, args) {
 
         const creationDate = new Date(message.guild.createdTimestamp)
 
@@ -47,7 +45,7 @@ module.exports = {
                         name: "Información general",
                         value: `Servidor actual: ${message.guild.name}
                     Miembros en total: ${message.guild.memberCount}
-                    Fecha de creación: ${creationDate.toLocaleString('en-GB')}`
+                    Fecha de creación: ${creationDate.toLocaleString("en-GB")}`
                     },
                     {
                         name: "Estado del bot",

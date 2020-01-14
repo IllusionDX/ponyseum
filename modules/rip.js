@@ -1,117 +1,114 @@
-const Canvas = require('canvas');
-const Discord = require('discord.js');
-const path = require('path');
+const Canvas = require("canvas")
+const Discord = require("discord.js")
+const path = require("path")
 
 module.exports = {
 
-    name: 'rip',
-    description: 'Aquí yacen mis sueños y esperanzas.',
-    usage: '@usuario [texto en la lapida]',
+    name: "rip",
+    description: "Aquí yacen mis sueños y esperanzas.",
+    usage: "@usuario [texto en la lapida]",
 
     async execute(message, args) {
         // Name and text positioning
-        let x = 145;
-        let y = 215;
+        let x = 145
+        let y = 215
 
-        let tX = 150;
-        let tY = 245;
-        let tMaxWidth = 150;
+        let tX = 150
+        let tY = 245
+        let tMaxWidth = 150
 
         //Storage for mentions
-        let uList = [];
+        let uList = []
 
         getLines = function (text, ctx, maxWidth) {
+            this.text = text
 
-            this.text = text;
-
-            let words = text.join(' ');
-            let lines = [];
-            let currentLine = words[0];
+            let words = text.join(" ")
+            let lines = []
+            let currentLine = words[0]
 
             for (let i = 1; i < words.length; i++) {
-                let word = words[i];
-                let width = ctx.measureText(currentLine + "" + word).width;
+                let word = words[i]
+                let width = ctx.measureText(currentLine + "" + word).width
                 if (width < maxWidth) {
-                    currentLine += "" + word;
+                    currentLine += "" + word
                 } else {
-                    lines.push(currentLine);
-                    currentLine = word;
+                    lines.push(currentLine)
+                    currentLine = word
                 }
             }
-            lines.push(currentLine);
-            return lines;
+            lines.push(currentLine)
+            return lines
         }
 
         getUserFromMention = function (mention) {
-            if (!mention) return;
+            if (!mention) return
 
-            if (mention.startsWith('<@') && mention.endsWith('>')) {
-                mention = mention.slice(2, -1);
+            if (mention.startsWith("<@") && mention.endsWith(">")) {
+                mention = mention.slice(2, -1)
 
-                if (mention.startsWith('!')) {
-                    mention = mention.slice(1);
+                if (mention.startsWith("!")) {
+                    mention = mention.slice(1)
                 }
 
-                return message.client.users.get(mention);
+                return message.client.users.get(mention)
             }
         }
 
         //Loading the background dice image and resolving the path.
-        const bg = await Canvas.loadImage(path.resolve('./assets/rip.png'));
+        const bg = await Canvas.loadImage(path.resolve("./assets/rip.png"))
 
         //Canvas declaration
-        const cdef = Canvas.createCanvas(400, 400);
+        const cdef = Canvas.createCanvas(400, 400)
 
         //Context declaration
-        let ctx = cdef.getContext('2d');
-        ctx.drawImage(bg, 0, 0, cdef.width, cdef.height);
+        let ctx = cdef.getContext("2d")
+        ctx.drawImage(bg, 0, 0, cdef.width, cdef.height)
 
         if (!args.length) {
-            ctx.font = 'bold 18px Libre Franklin';
-            ctx.fillStyle = 'black';
-            ctx.textAlign = 'center';
-            ctx.fillText(`@${message.author.username}`, x, y);
+            ctx.font = "bold 18px Libre Franklin"
+            ctx.fillStyle = "black"
+            ctx.textAlign = "center"
+            ctx.fillText(`@${message.author.username}`, x, y)
         } else if (args.length > 0) {
 
-            ctx.font = 'bold 18px Libre Franklin';
-            ctx.fillStyle = 'black';
-            ctx.textAlign = 'center';
+            ctx.font = "bold 18px Libre Franklin"
+            ctx.fillStyle = "black"
+            ctx.textAlign = "center"
 
             if (message.mentions.users.size) {
-                ctx.fillText(`${getUserFromMention(args[0]).username}`, x, y, 145);
+                ctx.fillText(`${getUserFromMention(args[0]).username}`, x, y, 145)
             } else {
-                ctx.fillText(`${args[0]}`, x, y, 145);
+                ctx.fillText(`${args[0]}`, x, y, 145)
             }
 
             if (args[1]) {
 
-                ctx.font = 'bold 16px Roboto';
-                ctx.fillStyle = 'black';
-                ctx.textAlign = 'center';
+                ctx.font = "bold 16px Roboto"
+                ctx.fillStyle = "black"
+                ctx.textAlign = "center"
 
-                //message.mentions.users.tap(user => uList.push(user));
-
-                args.shift();
+                args.shift()
 
                 for (let j = 0; j < args.length; j++) {
-                    if (args[j].startsWith('<@') && args[j].endsWith('>')) {
-                        args[j] = getUserFromMention(args[j]).username;
+                    if (args[j].startsWith("<@") && args[j].endsWith(">")) {
+                        args[j] = getUserFromMention(args[j]).username
                     }
                 }
 
-                let lines = getLines(args, ctx, tMaxWidth);
+                let lines = getLines(args, ctx, tMaxWidth)
 
                 for (let i = 0; i < lines.length; i++) {
-                    ctx.fillText(lines[i], tX, tY, tMaxWidth);
-                    tY += 15;
+                    ctx.fillText(lines[i], tX, tY, tMaxWidth)
+                    tY += 15
                 }
             }
         } else {
-            return message.channel.send("Argumentos inválidos.");
+            return message.channel.send("Argumentos inválidos.")
         }
 
         //Declaring and sending attachment
-        let attachement = new Discord.Attachment(cdef.toBuffer(), 'rip.png');
-        message.channel.send(attachement);
+        let attachement = new Discord.Attachment(cdef.toBuffer(), "rip.png")
+        message.channel.send(attachement)
     },
 }

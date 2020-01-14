@@ -1,41 +1,43 @@
-const fetch = require('node-fetch');
-const {prefix} = require('../config/vars.json');
+const fetch = require("node-fetch")
+const {prefix} = require("../config/vars.json")
 
 module.exports = {
 
-    name: 'derpibooru',
-    alias: ["derpi"],
-    description: 'Busca imágenes en derpibooru usando tags separados por coma.',
+    name: "derpibooru",
+    alias: ["derpi", "derpy", "db"],
+    description: "Busca imágenes en derpibooru usando tags separados por coma.",
 
     async execute(message, args, cmdname) {
-
-        arg = message.content.replace(prefix + cmdname, "").trim();
-        const safe = 100073;
-
         async function getData(url) {
-            const response = await fetch(url);
+            const response = await fetch(url)
             if (response.status == 200) {
-                return response.json();
+                return response.json()
             } else {
-                throw new Error(response.statusText);
+                throw new Error(response.statusText)
             }
         }
 
-        if (arg.split(",").length = 1 && !isNaN(arg)) {
+        arg = message.content.replace(prefix + cmdname, "").trim()
+        if (!arg) {
+            arg = "*"
+        }
+        
+        const safe = 100073
 
+        if (arg.split(",").length = 1 && !isNaN(arg)) {
             const id_url = `https://derpibooru.org/api/v1/json/images/${arg}?`
             let id_params = new URLSearchParams({
                 filter_id: safe
             })
             let id_data = await getData(id_url + id_params).then(function () {
                     message.channel.send(`https://derpibooru.org/images/${arg}`)
-                    return;
+                    return
                 })
                 .catch(reason => {
                     message.channel.send(`Se ha producido un error en la búsqueda: ${reason.message}`)
-                    return;
+                    return
                 })
-            return;
+            return
         }
 
         const url = "https://derpibooru.org/api/v1/json/search/images?"
@@ -44,27 +46,30 @@ module.exports = {
             filter_id: safe,
             per_page: 1,
             page: 1
-        });
+        })
 
-        let data = await getData(url + params);
-        let res = [];
-        let total_img = data["total"];
+        message.channel.startTyping()
 
-        rand_img = Math.floor(Math.random() * total_img + 1);
-        params.set("page", rand_img.toString());
+        let data = await getData(url + params)
+        let res = []
+        let total_img = data["total"]
+
+        rand_img = Math.floor(Math.random() * total_img + 1)
+        params.set("page", rand_img.toString())
 
         if (total_img == 0) {
-            return message.channel.send("No se han encontrado resultados para esta búsqueda.");
+            return message.channel.send("No se han encontrado resultados para esta búsqueda.")
         } else if (data["error"]) {
-            return message.channel.send(`Se ha producido un error en la búsqueda: ${data["error"]}`);
+            return message.channel.send(`Se ha producido un error en la búsqueda: ${data["error"]}`)
         } else if (total_img > 1){
-            res.push(`Se han encontrado ${total_img} imágenes en total. [**${rand_img}**/${total_img}]`);
+            res.push(`Se han encontrado **${total_img}** imágenes en total. [${rand_img}/${total_img}]`)
         }
 
-        data = await getData(url + params);
-        res.push(`https://derpibooru.org/images/${data["images"][0].id}`);
+        data = await getData(url + params)
+        res.push(`https://derpibooru.org/images/${data["images"][0].id}`)
 
-        message.channel.send(res);
+        message.channel.send(res)
+        message.channel.stopTyping()
 
     },
-};
+}
